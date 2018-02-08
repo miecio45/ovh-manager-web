@@ -1,7 +1,7 @@
 angular.module("App").config(($stateProvider) => {
     "use strict";
 
-    $stateProvider.state("app.domain.dns-zone", {
+    $stateProvider.state("app.domains.dns-zone", {
         url: "/configuration/zone/:productId?tab",
         templateUrl: "dns-zone/dns-zone.html",
         controller: "DnsZoneCtrl",

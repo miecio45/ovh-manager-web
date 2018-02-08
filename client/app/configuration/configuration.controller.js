@@ -1,10 +1,10 @@
 angular.module("App").controller(
     "ConfigurationCtrl",
     class ConfigurationCtrl {
-        constructor ($scope, $route, Products, constants, User) {
+        constructor ($scope, $route, product, constants, User) {
             this.$scope = $scope;
             this.$route = $route;
-            this.Products = Products;
+            this.product = product;
             this.constants = constants;
             this.User = User;
         }
@@ -28,7 +28,7 @@ angular.module("App").controller(
         }
 
         unSelectProduct () {
-            this.Products.removeSelectedProduct().then((p) => (this.$scope.product = p));
+            this.product.removeSelectedProduct().then((p) => (this.$scope.product = p));
         }
 
         selectTypeOfGuide (typeOfGuide) {

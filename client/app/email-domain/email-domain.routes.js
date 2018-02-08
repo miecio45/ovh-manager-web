@@ -1,7 +1,7 @@
 angular.module("App").config(($stateProvider) => {
     "use strict";
 
-    $stateProvider.state("app.email", {
+    $stateProvider.state("app.emails", {
         url: "/configuration/email-",
         "abstract": true,
         template: "<div ui-view></div>"

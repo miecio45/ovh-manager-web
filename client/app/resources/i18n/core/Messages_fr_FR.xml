@@ -193,7 +193,7 @@
    <translation id="main_menu_bill_and_renew" qtlid="32950">Facturation</translation>
    <translation id="main_menu_help_and_support" qtlid="26035">Aide</translation>
    <translation id="navigation_left_search" qtlid="122275">Recherche...</translation>
-   <translation id="navigation_left_domains" qtlid="32590">Domaines</translation>
+   <translation id="navigation_left_domains">Domaines</translation>
    <translation id="navigation_left_all_domains" qtlid="152141">Tous mes domaines</translation>
    <translation id="navigation_left_order_dnszone" qtlid="433654">Zone DNS</translation>
    <translation id="navigation_left_all_domains_operations" qtlid="76470">Opérations en cours</translation>
@@ -205,15 +205,15 @@
    <translation id="navigation_left_platform_1" qtlid="3854">Plateforme</translation>
    <translation id="navigation_left_platform_other" qtlid="123607">Plateformes</translation>
    <translation id="navigation_left_ip" qtlid="25615">IP</translation>
-   <translation id="navigation_left_hosting" qtlid="50470">Hébergements</translation>
-   <translation id="navigation_left_database" qtlid="7702">Bases de données</translation>
+   <translation id="navigation_left_hostings">Hébergements</translation>
+   <translation id="navigation_left_databases">Bases de données</translation>
    <translation id="navigation_left_exchange" qtlid="80430">Exchange</translation>
    <translation id="navigation_left_office" qtlid="100544">Office</translation>
    <translation id="navigation_left_sharepoint" qtlid="298352">Sharepoint</translation>
-   <translation id="navigation_left_microsoft" qtlid="284280">Microsoft</translation>
+   <translation id="navigation_left_microsoftProducts">Microsoft</translation>
    <translation id="navigation_left_vps" qtlid="23083">VPS</translation>
    <translation id="navigation_left_cdn" qtlid="99812">CDN</translation>
-   <translation id="navigation_left_email" qtlid="218029">Emails</translation>
+   <translation id="navigation_left_emails">Emails</translation>
    <translation id="navigation_left_emailPro" qtlid="374893">E-mail Pro</translation>
    <translation id="navigation_left_microsoft_order" qtlid="267435">Commander une plateforme</translation>
    <translation id="navigation_left_order_exchange" qtlid="80430">Exchange</translation>

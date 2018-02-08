@@ -9,7 +9,7 @@ angular.module("App").config(($stateProvider) => {
         templateUrl: "app.html"
     });
 
-    $stateProvider.state("app.microsoft", {
+    $stateProvider.state("app.microsoftProducts", {
         "abstract": true,
         template: "<div ui-view></div>"
     });

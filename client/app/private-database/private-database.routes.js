@@ -1,7 +1,7 @@
 angular.module("App").config(($stateProvider) => {
     "use strict";
 
-    $stateProvider.state("app.private-database", {
+    $stateProvider.state("app.databases", {
         url: "/configuration/private_database/:productId?tab",
         templateUrl: "private-database/private-database.html",
         controller: "PrivateDatabaseCtrl",

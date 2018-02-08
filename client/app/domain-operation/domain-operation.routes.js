@@ -1,7 +1,7 @@
 angular.module("App").config(($stateProvider) => {
     "use strict";
 
-    $stateProvider.state("app.domain.operation", {
+    $stateProvider.state("app.domains.operation", {
         url: "/configuration/domains_operations",
         templateUrl: "domain-operation/domain-operation.html",
         controller: "DomainOperationCtrl",
@@ -22,7 +22,7 @@ angular.module("App").config(($stateProvider) => {
         }
     });
 
-    $stateProvider.state("app.domain.operation-progress", {
+    $stateProvider.state("app.domains.operation-progress", {
         url: "/configuration/domain_operation/progress/:operationId",
         templateUrl: "domain-operation/progress/domain-operation-progress.html",
         controller: "DomainOperationProgressCtrl",

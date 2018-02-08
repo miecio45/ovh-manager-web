@@ -169,7 +169,7 @@ module.exports = {
             "client/bower_components/raven-js/dist/plugins/angular.min.js",
             "client/bower_components/ovh-angular-toggleclass/dist/ovh-angular-toggleClass.min.js",
             "client/bower_components/ovh-angular-manager-navbar/dist/ovh-angular-manager-navbar.min.js",
-            "client/bower_components/ovh-angular-sidebar-menu/dist/ovh-angular-sidebar-menu.min.js",
+            "client/bower_components/ovh-angular-sidebar-menu/dist/ovh-angular-sidebar-menu.js",
             "client/bower_components/angular-translate/angular-translate.min.js",
             "client/bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.min.js",
             "client/bower_components/ng-slide-down/dist/ng-slide-down.min.js",

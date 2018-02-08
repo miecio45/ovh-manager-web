@@ -1,4 +1,193 @@
-angular.module("services").service("Products", [
+angular
+    .module("services")
+    .service("product", class Product {
+        constructor (AllDom, constants, Emails, $http, $q, $rootScope) {
+            this.AllDom = AllDom;
+            this.constants = constants;
+            this.Emails = Emails;
+            this.$http = $http;
+            this.$q = $q;
+            this.$rootScope = $rootScope;
+
+            this.selectedProduct = {
+                name: "",
+                organization: "",
+                type: ""
+            };
+        }
+
+        retrievingProducts () {
+            const retrievingProductsFrom2API = this.$http.get("/sws/products", {
+                serviceType: "aapi",
+                params: {
+                    universe: this.constants.universe || "WEB",
+                    worldPart: this.constants.target
+                }
+            });
+
+            return this.$q
+                .all([retrievingProductsFrom2API, this.AllDom.getAllDoms(true), this.Emails.getDelegatedEmails()])
+                .then((allProducts) => transformProductRetrievalResult(allProducts));
+
+            function transformProductRetrievalResult (allProducts) {
+                const userProducts = allProducts[0].data;
+                const allDomains = allProducts[1];
+                const delegationEmails = allProducts[2];
+
+                const products = {
+                    domains: {
+                        values: userProducts.domains,
+                        children: {
+                            allDomains: _(allDomains).map((domainName) => transformNameToProduct(domainName)).value()
+                        }
+                    },
+                    emails: {
+                        values: _(delegationEmails).map((email) => transformDelegationEmailToStandardEmail(email)).value()
+                    }
+                };
+
+                const platforms = removeOldExchangePlatforms(userProducts);
+
+                if (_(platforms).isArray()) {
+                    products.platforms = platforms;
+                }
+
+                return products;
+            }
+
+            function transformNameToProduct (name, type) {
+                return {
+                    displayName: name,
+                    name,
+                    type
+                };
+            }
+
+            function transformDelegationEmailToStandardEmail (delegationEmail) {
+                const emailContainsAtSign = /@/.test(delegationEmail);
+
+                if (!emailContainsAtSign) {
+                    throw new TypeError("delegationEmail should be an email address");
+                }
+
+                const domainName = delegationEmail.split("@")[1];
+
+                return transformNameToProduct(domainName, "EMAIL_DELEGATE");
+            }
+
+            function removeOldExchangePlatforms (products) {
+                const hasOldExchangePlatforms = _(products.platforms).isArray();
+
+                if (hasOldExchangePlatforms) {
+                    const productsWithoutOldExchangePlatforms = _(products.platforms).filter((product) => product.type !== "EXCHANGE_OLD");
+                    return _(productsWithoutOldExchangePlatforms).uniq((product) => product.name);
+                }
+
+                return products.platforms;
+            }
+        }
+
+        retrievingSelectedProduct () {
+            return this.$q.when(true);
+
+            /* return this.retrievingProducts()
+                .then((productsList) => {
+                    let productLength = productsList.length;
+
+                    if ($.isEmpty(selectedProduct.name)) {
+                        selectedProduct.name = $stateParams.productId ? $stateParams.productId : "";
+                        selectedProduct.type = $rootScope.currentSectionInformation ? $rootScope.currentSectionInformation.toUpperCase() : null;
+                        selectedProduct.organization = $stateParams.organization ? $stateParams.organization : "";
+
+                        if (selectedProduct.name === "") {
+                            return {
+                                name: "",
+                                organization: "",
+                                type: ""
+                            };
+                        }
+                    }
+
+                    for (productLength; productLength--;) {
+                        if (productsList[productLength].name === selectedProduct.name && productsList[productLength].type === selectedProduct.type) {
+                            return productsList[productLength];
+                        } else if (productsList[productLength].hasSubComponent === true) {
+                            let i = 0;
+                            let found;
+
+                            while (!found && i < productsList[productLength].subProducts.length) {
+                                if (productsList[productLength].subProducts[i].name === selectedProduct.name && productsList[productLength].subProducts[i].type === selectedProduct.type) {
+                                    found = productsList[productLength].subProducts[i];
+                                }
+                                i++;
+                            }
+                            if (found) {
+                                return found;
+                            }
+                        }
+                    }
+
+                    return null;
+                });*/
+        }
+
+        setSelectedProduct () {
+            /* const inputIsInvalid = !_(product).isString() && !_(product).isObject();
+
+            if (inputIsInvalid) {
+                throw new TypeError("product should be either an object or a string");
+            }
+
+            if (_(product).isString()) {
+                this.selectedProduct.name = product;
+            } else {
+                const noDataAvailable = _(product.name).isEmpty() && _(product.type).isEmpty();
+
+                if (noDataAvailable) {
+                    this.selectedProduct = product;
+                } else {
+                    this.selectedProduct.name = product.name;
+                    this.selectedProduct.type = product.type;
+                }
+            }
+
+
+            if (product) {
+                if (angular.isString(product)) {
+                    selectedProduct.name = product;
+                } else if (angular.isObject(product)) {
+                    if (product.name === "" && product.type === "") {
+                        selectedProduct = product;
+                    } else {
+                        selectedProduct.name = product.name;
+                        selectedProduct.type = product.type;
+                    }
+                }
+            }
+
+            return this.getSelectedProduct().then((p) => {
+                selectedProduct.type = p.type;
+                $rootScope.$broadcast("changeSelectedProduct", p);
+                return p;
+            });*/
+
+            return this.$q.when(true);
+        }
+
+        removeSelectedProduct () {
+            /* return this.setSelectedProduct({
+                name: "",
+                type: ""
+            }).then((p) => {
+                $rootScope.$broadcast("removeSelectedProduct");
+                return p;
+            });*/
+
+            return this.$q.when(true);
+        }
+    });/*
+
+    [
     "$rootScope",
     "$http",
     "$q",
@@ -6,16 +195,8 @@ angular.module("services").service("Products", [
     "$stateParams",
     "AllDom",
     "Emails",
-    function ($rootScope, $http, $q, constants, $stateParams, AllDom, Emails) {
+    function ($rootScope, , constants, $stateParams, AllDom, Emails) {
         "use strict";
-
-        let products = null;
-        let productsByType = null;
-        let selectedProduct = {
-            name: "",
-            organization: "",
-            type: ""
-        };
 
         const requests = {
             productsList: null
@@ -29,7 +210,7 @@ angular.module("services").service("Products", [
 
         /*
          * get product by SWS
-         */
+         *//*
         this.getProducts = function (forceRefresh) {
             if (forceRefresh === true) {
                 resetCache();
@@ -74,7 +255,7 @@ angular.module("services").service("Products", [
                                             }
                                         });
 
-                                        /* Exchange 25g */
+                                        /* Exchange 25g *//*
                                         if (productsByType && productsByType.platforms && productsByType.platforms.length) {
                                             // 1. Remove all occurances and put them in other var
                                             let exchangeOld = _.remove(productsByType.platforms, (a) => a.type === "EXCHANGE_OLD");
@@ -157,14 +338,14 @@ angular.module("services").service("Products", [
 
         /*
          * Get list of products orderBy Type
-         */
+         *//*
         this.getProductsByType = function () {
             return this.getProducts().then(() => productsByType);
         };
 
         /*
          * Get the selected product
-         */
+         *//*
         this.getSelectedProduct = function (forceRefresh) {
             if (forceRefresh) {
                 selectedProduct = {
@@ -216,7 +397,7 @@ angular.module("services").service("Products", [
 
         /*
          * set the selected product by Id
-         */
+         *//*
         this.setSelectedProduct = function (product) {
             if (product) {
                 if (angular.isString(product)) {
@@ -240,7 +421,7 @@ angular.module("services").service("Products", [
 
         /*
          * set the selected product by Id
-         */
+         *//*
         this.removeSelectedProduct = function () {
             return this.setSelectedProduct({
                 name: "",
@@ -253,11 +434,11 @@ angular.module("services").service("Products", [
 
         /**
          * Get working-status for the specified product
-         */
+         *//*
         this.getWorks = function (product) {
             return $http.get(`${constants.aapiRootPath}working-status/${product}`).then((resp) => resp.data);
         };
 
         this.getProducts(true);
     }
-]);
+]);*/

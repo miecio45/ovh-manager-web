@@ -3,10 +3,9 @@ angular.module("services").service("User", [
     "$http",
     "$q",
     "constants",
-    "Products",
     "translator",
     "OvhHttp",
-    function ($rootScope, $http, $q, constants, Products, translator, OvhHttp) {
+    function ($rootScope, $http, $q, constants, translator, OvhHttp) {
         "use strict";
 
         let user = null;
