@@ -1,11 +1,11 @@
 angular
     .module("services")
     .service("product", class Product {
-        constructor (AllDom, constants, Emails, $http, $q, $rootScope) {
+        constructor (AllDom, constants, Emails, OvhHttp, $q, $rootScope) {
             this.AllDom = AllDom;
             this.constants = constants;
             this.Emails = Emails;
-            this.$http = $http;
+            this.OvhHttp = OvhHttp;
             this.$q = $q;
             this.$rootScope = $rootScope;
 
@@ -17,32 +17,34 @@ angular
         }
 
         retrievingProducts () {
-            return this.$http
+            return this.OvhHttp
                 .get("/sws/products", {
-                    serviceType: "aapi",
+                    rootPath: "2api",
                     params: {
                         universe: this.constants.universe || "WEB",
                         worldPart: this.constants.target
                     }
                 })
-                .then((rawProducts) => {
-                    let transformedProducts = addDomainsToProducts({}, rawProducts);
-                    transformedProducts = addHostingsToProducts(transformedProducts, rawProducts);
-                    transformedProducts = addDatabasesToProducts(transformedProducts, rawProducts);
-                    transformedProducts = addEmailProToProducts(transformedProducts, rawProducts);
-                    transformedProducts = addEmailsToProducts(transformedProducts, rawProducts);
-                    transformedProducts = addExchangeToProducts(transformedProducts, rawProducts);
-                    transformedProducts = addOfficeToProducts(transformedProducts, rawProducts);
-                    transformedProducts = addSharepointToProducts(transformedProducts, rawProducts);
+                .then((allProducts) => {
+                    const standardProducts = generateStandardProducts(allProducts);
 
-                    return transformedProducts;
+                    const sortedProducts = _.sortBy(standardProducts, "displayName");
+
+                    return sortedProducts;
                 });
 
-            addExchangeToProducts (products, retrievedProducts) {
-                return _(products).chain()
-                    .cloneDeep()
-                    .set("exchange", retrievedProducts.exchange)
-                    .value();
+            function generateStandardProducts (products) {
+                const hostings = generateStandardProduct(products, "hostings");
+                const emailProProducts = generateStandardProduct(products, "emailPros");
+                const exchangeProducts = generateStandardProduct(products, "exchanges");
+                const officeProducts = generateStandardProduct(products, "licenseOffice");
+                const sharepointProducts = generateStandardProduct(products, "sharepoints");
+
+                return [].concat(hostings, emailProProducts, exchangeProducts, officeProducts, sharepointProducts);
+            }
+
+            function generateStandardProduct (products, productName) {
+                return products[productName];
             }
         }
 
@@ -59,7 +61,7 @@ angular
         }
     });
 
-angular.module("services").service("product", [
+/* angular.module("services").service("product", [
     "$rootScope",
     "$http",
     "$q",
@@ -132,7 +134,6 @@ angular.module("services").service("product", [
                                             }
                                         });
 
-                                        /* Exchange 25g */
                                         if (productsByType && productsByType.platforms && productsByType.platforms.length) {
                                             // 1. Remove all occurances and put them in other var
                                             let exchangeOld = _.remove(productsByType.platforms, (a) => a.type === "EXCHANGE_OLD");
@@ -303,4 +304,4 @@ angular.module("services").service("product", [
 
         this.retrievingProducts(true);
     }
-]);
+]);*/
