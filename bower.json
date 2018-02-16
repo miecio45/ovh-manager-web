@@ -37,7 +37,7 @@
     "ovh-utils-angular": "^12.0.3",
     "ovh-module-sharepoint": "git+https://github.com/ovh-ux/ovh-module-sharepoint.git#feature/oui-datagrid",
     "ovh-module-exchange": "git+https://github.com/ovh-ux/ovh-module-exchange.git#feature/oui-datagrid",
-    "ovh-module-office": "git+https://github.com/ovh-ux/ovh-module-office.git#feature/uu-628",
+    "ovh-module-office": "^5.0.0",
     "ovh-module-emailpro": "git+https://github.com/ovh-ux/ovh-module-emailpro.git#feature/oui-datagrid",
     "ovh-angular-proxy-request": "^0.1.0",
     "ovh-angular-http": "^3.0.1",
